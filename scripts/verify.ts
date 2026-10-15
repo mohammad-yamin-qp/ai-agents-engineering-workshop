@@ -276,7 +276,7 @@ let currentSession = -1;
 for (const result of results.sort((a, b) => a.session - b.session)) {
   if (result.session !== currentSession) {
     currentSession = result.session;
-    console.log(`\n${currentSession === 0 ? "setup" : `session ${currentSession}`}`);
+    console.log(`\n${currentSession === 0 ? "setup" : `stage ${currentSession}`}`);
   }
   console.log(
     `  ${label[result.status]}  ${result.name}${result.detail ? `  (${result.detail})` : ""}`,

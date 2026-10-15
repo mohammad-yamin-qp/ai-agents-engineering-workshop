@@ -1,8 +1,9 @@
 # AI Agents Engineering Workshop
 
-Five sessions on how a coding harness actually works — Claude Code, Codex, pi,
+Four sessions on how a coding harness actually works — Claude Code, Codex, pi,
 opencode. Provider, system prompt, tools, the loop, the write tool, context
-and memory, protocols, delegation, policy, reliability, evaluation.
+and memory, security, and protocols. Delegation, reliability and evaluation
+are covered by examples 08 and 10 for self-study.
 
 Two tracks running in parallel:
 
@@ -10,7 +11,7 @@ Two tracks running in parallel:
   investigates and fixes a bundled Pokédex API fixture with one deliberately
   failing test.
 - **`harness/`** — you build a **QuestionPro Wiki Harness** over an offline
-  snapshot of the public help centre, one stage per week, as homework.
+  snapshot of the public help centre, in five stages, as homework.
 
 ## Prerequisites
 
@@ -102,13 +103,16 @@ pnpm --filter 06-context reset   # also deletes the saved session
 ```bash
 pnpm harness     # run your own harness
 pnpm verify      # structural checks, offline and free
-pnpm golden      # score against 10 fixed questions (from session 2)
+pnpm golden      # score against 10 fixed questions (from stage 2)
 pnpm golden --runs=3  # the model is not deterministic: average 3 runs
 ```
 
 Assignments and success criteria: [`harness/README.md`](harness/README.md)
 
 ## Progression
+
+Session `-` means self-study: the example is not shown live, but the homework
+uses it as a reference.
 
 | #   | Example         | Concept                                                              | Session |
 | --- | --------------- | -------------------------------------------------------------------- | ------- |
@@ -119,9 +123,9 @@ Assignments and success criteria: [`harness/README.md`](harness/README.md)
 | 05  | `tools-and-edit`  | Narrow tools vs. `execute_anything`; `write_file` vs. `edit_file`    | 3       |
 | 06  | `context`         | Compaction; session JSONL with resume and fork; `AGENTS.md` memory   | 3       |
 | 07  | `mcp`             | Consume a real server; write your own; connect it to your own tool   | 4       |
-| 08  | `sub-agent`       | A `delegate` tool: nested loop, isolated context (Claude's Task)     | 4       |
-| 09  | `policy`          | Pre-tool hook, approval, prompt injection, structured tool errors    | 5       |
-| 10  | `trace-and-eval`  | JSONL trace of every call; trajectory eval scored from the trace     | 5       |
+| 08  | `sub-agent`       | A `delegate` tool: nested loop, isolated context (Claude's Task)     | -       |
+| 09  | `policy`          | Pre-tool hook, approval, prompt injection, structured tool errors    | 4       |
+| 10  | `trace-and-eval`  | JSONL trace of every call; trajectory eval scored from the trace     | -       |
 
 ## Maintainer
 

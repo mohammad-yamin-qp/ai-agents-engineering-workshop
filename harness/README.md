@@ -1,11 +1,13 @@
 # Homework: build the QuestionPro Wiki Harness
 
-Across five sessions you build your own harness in this folder. The instructor
+In five stages you build your own harness in this folder. The workshop ran
+four sessions; stages 4 and 5 were handed out in the last one, so finish them
+at your own pace. The instructor
 builds the same ideas against a buggy Pokédex API in `examples/`; you build
 them against the QuestionPro help centre.
 
 **You only ever edit files under `harness/`.** Upstream never touches
-`harness/src`, so `git pull upstream main` stays conflict-free all five weeks.
+`harness/src`, so `git pull upstream main` stays conflict-free throughout.
 
 ## The corpus
 
@@ -25,17 +27,17 @@ pnpm golden     # score: 10 fixed questions with known answers
 ```
 
 `pnpm verify` reports `....` for checks you have not reached yet, so run it any
-time. `pnpm golden` needs an `ask()` function, so it starts working in session 2.
+time. `pnpm golden` needs an `ask()` function, so it starts working in stage 2.
 
-Your first golden score, in week 2, is the baseline you beat for the rest of
+Your first golden score, in stage 2, is the baseline you beat for the rest of
 the course. **Never edit `golden.json`** — a benchmark you move is not a
 benchmark. The model is not deterministic, so one run is one sample: compare
-weeks with `pnpm golden --runs=3`, not single runs.
+stages with `pnpm golden --runs=3`, not single runs.
 
 ## Ground rules
 
 - Timebox yourself to 90 minutes. If you are stuck past that, stop and bring
-  the stuck thing to the session. Being stuck is data.
+  the stuck thing to your pair or the workshop channel. Being stuck is data.
 - You are paired. Ask your pair before you ask the instructor.
 - You are never blocked: `examples/` has a working reference for every stage.
   Copying it will not complete the assignment, because your tools, your
@@ -43,12 +45,10 @@ weeks with `pnpm golden --runs=3`, not single runs.
 - `.env` is gitignored. Your fork of a public repo is public. `pnpm verify`
   fails loudly if `.env` is ever committed. It cannot see a key you pasted
   into another file, so don't.
-- At the top of each session, somebody demos their harness and explains their
-  own code. Assume it will be you.
 
 ---
 
-## Session 1 — provider, system prompt, one tool
+## Stage 1 — provider, system prompt, one tool
 
 Right now `src/index.ts` calls the model once and hands it search results in
 the prompt. That is not an agent. Make the model _ask_ for the search instead.
@@ -68,14 +68,14 @@ every one, each with its own `toolCallId`.
 Run it once with `LLM_DEBUG=1 pnpm harness` and read the request body. That
 is everything the model knows.
 
-**Done when:** `pnpm verify` passes the session 1 checks; one tool call
+**Done when:** `pnpm verify` passes the stage 1 checks; one tool call
 executes; the answer changes depending on what search returned.
 
 If you see `rate limited (429), retrying in Ns`, that is the shared provider
-recovering on its own. Do not work around it; screenshot it. Session 2 is
-about why it exists, and next week's loop makes many more calls.
+recovering on its own. Do not work around it; screenshot it. Stage 2 is
+about why it exists, and its loop makes many more calls.
 
-## Session 2 — the loop, retries, cost
+## Stage 2 — the loop, retries, cost
 
 Build `src/agent.ts`:
 
@@ -101,15 +101,14 @@ recovers visibly instead of crashing; every run prints its own cost.
 **In your own tool.** Do one real task at work with the coding agent you use
 daily (Claude Code, Codex, pi, or similar). Open its transcript or usage view
 and write down three numbers: loop iterations, tool calls, and tokens. Note
-which tool calls were reads and which were writes. Bring the numbers to
-session 4.
+which tool calls were reads and which were writes. Keep them;
+stage 3 compares against them.
 
-> **This week (handed out in session 3):** do session 2 first, then
-> session 3's `editPage`. The edit tool is only useful once the loop exists,
-> and `pnpm golden` needs `ask()`. Sessions and compaction below are
-> stretch goals this week.
+> Do stage 2 before stage 3's `editPage`. The edit tool is only useful
+> once the loop exists, and `pnpm golden` needs `ask()`. Sessions and
+> compaction in stage 3 are stretch goals.
 
-## Session 3 — the write tool, context and sessions
+## Stage 3 — the write tool, context and sessions
 
 Build `src/edit.ts`:
 
@@ -164,12 +163,12 @@ A `MEMORY.md` loaded into the system prompt at startup.
 2. Open one of its session files (pi: `~/.pi/agent/sessions/`). Find the
    tool calls and any compaction entry.
 3. For a week, start a fresh session per task and read every diff before
-   accepting it. Compare token counts with the numbers from session 2's
+   accepting it. Compare token counts with the numbers from stage 2's
    own-tool task.
 
-Bring one permission rule you had to change, and why.
+Note one permission rule you had to change, and why.
 
-## Session 4 — MCP
+## Stage 4 — MCP
 
 Expose your harness's tools as an MCP server over stdio.
 
@@ -178,12 +177,12 @@ Then connect a real harness to it — Claude Code, pi, Codex, whichever you use
 
 Mark each tool with MCP annotations (`readOnlyHint: true` for search and read,
 `destructiveHint: true` for edit). The client you connect uses them to decide
-what needs approval - the same read/write/execute tag from session 3.
+what needs approval - the same read/write/execute tag from stage 3.
 `examples/07-mcp` has both: annotations in `mcpServer.ts`, and `pnpm
 07:connect` prints the commands to connect a server to pi or Claude Code.
 
 **Done when:** a coding agent you did not write is searching the QuestionPro
-help centre through a server you did write. Screenshot it. This is the week
+help centre through a server you did write. Screenshot it. This is the stage
 that makes the other four worth it.
 
 **Stretch.** A `delegate` tool that hands a research question to a sub-agent
@@ -193,7 +192,7 @@ with only the read tools (`examples/08-sub-agent`).
 (GitHub, your issue tracker, a read-only database). Check which of its tools
 are read-only, and only auto-approve those.
 
-## Session 5 — make it survivable, then demo
+## Stage 5 — make it survivable, then demo
 
 Build `src/policy.ts` exporting a pre-tool hook:
 
@@ -224,14 +223,14 @@ example, run the linter after every edit, or block any command that touches
 `.env`. It is the same pre-tool idea, in a tool you did not write.
 
 **Done when:** `pnpm verify` is all green, `pnpm golden --runs=3` is your
-best average of the five weeks, and you can demo the injection being
+best average across the stages, and you can demo the injection being
 contained.
 
 ---
 
 ## Reference map
 
-| Your session | Reference example                                                              |
+| Your stage   | Reference example                                                              |
 | ------------ | ------------------------------------------------------------------------------ |
 | 1            | `examples/01-basic-llm`, `examples/02-tool-calling`                            |
 | 2            | `examples/03-agent-loop`, `examples/04-state`, `packages/llm-provider` (retry) |

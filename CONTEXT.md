@@ -16,7 +16,7 @@ _Avoid_: sandbox, target project, test repo
 The single running agent instance built up progressively across the examples. Operates exclusively on the Fixture Repo, never on the workshop repo itself or an attendee's own project.
 
 **Wiki Harness**:
-The agent each attendee builds themselves under `harness/`, one stage per session, as homework. Operates exclusively on the Corpus. Upstream ships the scaffold and never edits `harness/src` again, so an attendee's fork never conflicts on a weekly `git pull upstream main`.
+The agent each attendee builds themselves under `harness/`, in five stages, as homework. Operates exclusively on the Corpus. Upstream ships the scaffold and never edits `harness/src` again, so an attendee's fork never conflicts on a weekly `git pull upstream main`.
 _Avoid_: student agent, homework agent, wiki bot
 
 **Corpus**:
@@ -24,7 +24,7 @@ The committed offline snapshot under `harness/corpus/` — 162 markdown pages fr
 _Avoid_: wiki dump, scrape, dataset
 
 **Golden Set**:
-The ten fixed questions in `harness/golden.json` with known answers, all verifiable against the Corpus. Attendees score their Wiki Harness against it after every session from session 2 on, averaging several runs because the model is not deterministic, and watch the number climb. Scored by whole-token match, so an expected "8" does not pass on "128". Never edited — a benchmark that moves measures nothing.
+The ten fixed questions in `harness/golden.json` with known answers, all verifiable against the Corpus. Attendees score their Wiki Harness against it after every stage from stage 2 on, averaging several runs because the model is not deterministic, and watch the number climb. Scored by whole-token match, so an expected "8" does not pass on "128". Never edited — a benchmark that moves measures nothing.
 _Avoid_: eval set, test set, benchmark questions
 
 **Verify**:
